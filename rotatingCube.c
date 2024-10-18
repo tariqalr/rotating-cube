@@ -54,7 +54,6 @@ Vector2 orthographic_3Dto2D(Vector3 v){
 }
 //weak perspective projection :: simulates actual perspecive linearly
 Vector2 wPerspective_3Dto2D(Vector3 v){
-	double z=v.z+DISTANCE;
 	Vector2 returnVector = {
 		v.x*SCALE * (5/(DISTANCE+v.z+5)), //YOU MUST ADD 5 BECAUSE I SAID SO
 		v.y*SCALE * (5/(DISTANCE+v.z+5)) //actually the reason you add 5 is because weak perspective projection calculates projected position based on (distance to screen)/("actual distance"), and we took distance to screen as 5
@@ -202,9 +201,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			//rotate each vertex by multiplier*<angle> degrees
 			for(i=0;i<8;i++){
-				pv[i]=rotateX(v[i],1*angle,i);
-				pv[i]=rotateY(pv[i],1*angle,i);
-				pv[i]=rotateZ(pv[i],1*angle,i);
+				pv[i]=v[i]; //makes it easier to change order of rotation without having to change the code 
+				pv[i]=rotateX(pv[i],1*angle,i);
+				pv[i]=rotateY(pv[i],-1*angle,i);
+				pv[i]=rotateZ(pv[i],0.5*angle,i);
 			}
 			
 			Sleep(10);
