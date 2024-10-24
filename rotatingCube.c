@@ -202,9 +202,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//rotate each vertex by multiplier*<angle> degrees
 			for(i=0;i<8;i++){
 				pv[i]=v[i]; //makes it easier to change order of rotation without having to change the code 
-				pv[i]=rotateX(pv[i],1*angle,i);
-				pv[i]=rotateY(pv[i],-1*angle,i);
-				pv[i]=rotateZ(pv[i],0.5*angle,i);
+				pv[i]=rotateX(pv[i],0*angle,i);
+				pv[i]=rotateY(pv[i],0*angle,i);
+				pv[i]=rotateZ(pv[i],5*angle,i);
 			}
 			
 			Sleep(10);
