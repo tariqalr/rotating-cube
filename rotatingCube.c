@@ -3,10 +3,14 @@
 #include <windows.h>
 #include <wingdi.h>
 #define WINDOW_SIZE 1000
-#define PROJECTION_TYPE 1 //0 for orthographic projection, 1 for weak perspective projection
 #define SCALE 150 //scale of cube
 #define DISTANCE 2 //distance from cube for weak perspective
 #define PI 3.14159265358979323846
+
+enum PROJECTION_TYPE{
+	ORTHOGRAPHIC,
+	WPERSPECTIVE
+} PROJECTION=WPERSPECTIVE;
 
 typedef struct Vector3{
 	double x;
@@ -185,13 +189,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			int i;
 
 			//draw all edges based on choice of projection
-			if (PROJECTION_TYPE==0){ //i know i should use an enum but im not bothered
+			if (PROJECTION==ORTHOGRAPHIC){ 
 				for (i=0; i<4; i++){
 					drawBetweenVertices(window,orthographic_3Dto2D(pv[i]),orthographic_3Dto2D(pv[(i+1)%4])); //link vertices 0-1 1-2 2-3 3-0
 					drawBetweenVertices(window,orthographic_3Dto2D(pv[i+4]),orthographic_3Dto2D(pv[(i+1)%4+4])); //link 4-5 5-6 6-7 7-4
 					drawBetweenVertices(window,orthographic_3Dto2D(pv[i]),orthographic_3Dto2D(pv[i+4])); //link 0-4 1-5 2-6 3-7
 				}
-			} else if (PROJECTION_TYPE==1){
+			} else if (PROJECTION==WPERSPECTIVE){
 				for (i=0; i<4; i++){
 					drawBetweenVertices(window,wPerspective_3Dto2D(pv[i]),wPerspective_3Dto2D(pv[(i+1)%4])); 
 					drawBetweenVertices(window,wPerspective_3Dto2D(pv[i+4]),wPerspective_3Dto2D(pv[(i+1)%4+4]));
@@ -201,10 +205,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			//rotate each vertex by multiplier*<angle> degrees
 			for(i=0;i<8;i++){
-				pv[i]=v[i]; //makes it easier to change order of rotation without having to change the code 
-				pv[i]=rotateX(pv[i],0*angle,i);
-				pv[i]=rotateY(pv[i],0*angle,i);
-				pv[i]=rotateZ(pv[i],5*angle,i);
+				pv[i]=v[i];
+				pv[i]=rotateX(pv[i],1*angle,i);
+				pv[i]=rotateY(pv[i],1*angle,i);
+				pv[i]=rotateZ(pv[i],1*angle,i);
 			}
 			
 			Sleep(10);
